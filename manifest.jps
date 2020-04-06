@@ -1,6 +1,6 @@
 type: install
 id: jenkins
-baseUrl: https://raw.githubusercontent.com/jelastic-jps/jenkins/master
+baseUrl: https://raw.githubusercontent.com/SiryjVyiko/jenkins/master
 logo: /images/jenkins-jelastic.png
 name: Jenkins DevOps Pack
 targetRegions:
@@ -42,7 +42,6 @@ skipNodeEmails: true
 onInstall:
   install:
     jps: ${baseUrl}/addons/auto-clustering/auto-cluster.jps?_r=${fn.random}
-    nodeGroup: cp
     settings:
       cloned: 'false'
       user: ${globals.user}
