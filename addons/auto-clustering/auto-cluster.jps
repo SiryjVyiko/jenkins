@@ -94,6 +94,7 @@ actions:
     cmd[cp]: |-
       while [[ $(curl -s -w "%{http_code}" http://localhost:8080/ -o /dev/null) != "403" ]]; do echo "."; sleep 2; done
       rm -f ${STACK_PATH}/webapps/ROOT/WEB-INF/jenkins-cli.jar
+      sleep 5
       wget http://localhost/jnlpJars/jenkins-cli.jar -O ${STACK_PATH}/webapps/ROOT/WEB-INF/jenkins-cli.jar
       
    installJenkinsPlugins:
