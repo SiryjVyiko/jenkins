@@ -18,6 +18,7 @@ onInstall:
         name: jenkins.war
         context: ROOT
         archive: http://mirrors.jenkins-ci.org/war-stable/latest/jenkins.war
+    - installJenkinsCLI
     - installJenkinsPlugins
     - setupMaster
   - if (settings.cloned == 'true'): cleanupNodes
@@ -89,9 +90,14 @@ actions:
          type: success
          text: /text/success.md
 
-   installJenkinsPlugins:
+   installJenkinsCLI:
     cmd[cp]: |-
       while [[ $(curl -s -w "%{http_code}" http://localhost:8080/ -o /dev/null) != "403" ]]; do echo "."; sleep 2; done
+      rm -f ${STACK_PATH}/webapps/ROOT/WEB-INF/jenkins-cli.jar
+      wget http://localhost/jnlpJars/jenkins-cli.jar -O ${STACK_PATH}/webapps/ROOT/WEB-INF/jenkins-cli.jar
+      
+   installJenkinsPlugins:
+    cmd[cp]: |-
       pswd=$(cat ~/.jenkins/secrets/initialAdminPassword)
       jar=${STACK_PATH}/webapps/ROOT/WEB-INF/jenkins-cli.jar
       wget http://localhost/jnlpJars/jenkins-cli.jar -O $jar
