@@ -96,6 +96,7 @@ actions:
       rm -f ${STACK_PATH}/webapps/ROOT/WEB-INF/jenkins-cli.jar
       sleep 5
       wget http://localhost/jnlpJars/jenkins-cli.jar -O ${STACK_PATH}/webapps/ROOT/WEB-INF/jenkins-cli.jar
+      sleep 1
       
    installJenkinsPlugins:
     cmd[cp]: |-
