@@ -74,7 +74,7 @@ actions:
 
    downloadCliJar:
      - cmd[cp]: |-
-         while [[ $(curl -s -w "%{http_code}" http://localhost:8080/ -o /dev/null) != "403" ]]; do echo "."; sleep 5; done;
+         while [[ $(curl -s -w "%{http_code}" http://localhost:8080/ -o /dev/null) != "403" ]]; do sleep 30; done;
          pswd=$(cat ~/.jenkins/secrets/initialAdminPassword);
          jar=${STACK_PATH}/webapps/ROOT/WEB-INF/jenkins-cli.jar;
          wget --tries=60 --retry-connrefused http://localhost:8080/jnlpJars/jenkins-cli.jar -O $jar;
