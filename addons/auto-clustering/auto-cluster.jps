@@ -4,22 +4,8 @@ baseUrl: https://raw.githubusercontent.com/SiryjVyiko/jenkins/master
 logo: /images/jenkins.png
 name: Jenkins DevOps Pack Cluster Logic
 
-buttons:
-- caption: Reset Jenkins User Password
-  action: resetJenkinsPassword
-  loadingText: Resetting Jenkins user password...
-  confirmText: Do you want to reset the Jenkins user password?
-  successText: The Jenkins user password was reset successfully.
-
 onInstall:
   - if (settings.cloned != 'true'):
-    - prepareMaster
-    - deploy:
-        name: jenkins.war
-        context: ROOT
-        archive: http://mirrors.jenkins-ci.org/war-stable/latest/jenkins.war
-    - downloadCliJar
-    - installJenkinsPlugins
     - setupMaster
   - if (settings.cloned == 'true'): cleanupNodes
   - readPublicKeyFromMaster
@@ -41,9 +27,6 @@ onBeforeScaleIn[slaves]:
   forEach(event.response.nodes):
     removeSlave:
       slaveNodeId: ${@i.id}
-      
-onAfterRedeployContainer[cp]:
-  - prepareMaster
 
 onAfterClone:
   install:
@@ -56,68 +39,19 @@ onAfterClone:
       password: ${settings.password}
 
 actions:
-   prepareMaster:
-    cmd[cp]: |-
-      yum -y install xmlstarlet freetype dejavu-sans-fonts fontconfig xorg-x11-server-Xvfb gettext; 
-      yum clean all;
-      xmlstarlet ed --inplace -s Context -t elem -n 'Resources cachingAllowed="true" cacheMaxSize="40960"' /opt/tomcat/conf/context.xml;
-      echo "org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=true" >> /opt/tomcat/conf/catalina.properties;
-      service tomcat restart;
-    user: root
-
    cleanupNodes:
     cmd[cp]: |-
-      rm -rf /opt/tomcat/temp/.jenkins/nodes/*;
-      echo "" > /opt/tomcat/temp/.ssh/known_hosts;
-      service tomcat restart;
+      rm -rf /var/lib/jenkins/nodes/*;
+      echo "" > /home/jelastic/.ssh/known_hosts;
+      service jenkins restart;
     user: root
-
-   downloadCliJar:
-     - cmd[cp]: |-
-         while [[ $(curl -s -w "%{http_code}" http://localhost:8080/ -o /dev/null) != "403" ]]; do sleep 30; done;
-         pswd=$(cat ~/.jenkins/secrets/initialAdminPassword);
-         jar=${STACK_PATH}/webapps/ROOT/WEB-INF/jenkins-cli.jar;
-         wget --tries=60 --retry-connrefused http://localhost:8080/jnlpJars/jenkins-cli.jar -O $jar;
-
-   resetJenkinsPassword:
-     - setGlobals:
-         user: ${settings.user}
-         password: ${fn.password}
-     - cmd[cp]: |-
-         pswd=$(cat ~/.jenkins/secrets/initialAdminPassword)
-         jar=${STACK_PATH}/webapps/ROOT/WEB-INF/jenkins-cli.jar
-         cmd="java -jar $jar -auth admin:$pswd -s http://localhost:8080/"
-         until $(echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("${settings.user}", "${globals.password}")' | $cmd groovy =); do echo "repeat..."; sleep 2; done
-         sudo service tomcat restart;
-     - api: message.email.Send
-       to: "${user.email}"
-       subject: "Jenkins pasword was successfully reset for ${env.name}"
-       body: "<p><strong>Jenkins password was successfully reset for your ${env.name} environment.</strong></p><p><strong>Admin panel</strong>:&nbsp;${nodes.cp.master.adminUrl}</p><p><strong>User</strong>:&nbsp;${globals.user}</p><p><strong>Password</strong>:&nbsp;${globals.password}</p>"
-     - return:
-         type: success
-         text: /text/success.md
-
-   installJenkinsPlugins:
-    - cmd[cp]: |-
-        while [[ $(curl -s -w "%{http_code}" http://localhost:8080/ -o /dev/null) != "403" ]]; do echo "."; sleep 5; done;
-        pswd=$(cat ~/.jenkins/secrets/initialAdminPassword);
-        jar=${STACK_PATH}/webapps/ROOT/WEB-INF/jenkins-cli.jar;
-        cmd="java -Xmx100M -jar $jar -auth admin:$pswd -s http://localhost:8080/"
-        until $(echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("${settings.user}", "${settings.password}")' | $cmd groovy =); do echo "repeat..."; sleep 2; done
-        printf "<?xml version='1.1' encoding='UTF-8'?>\n<jenkins.model.JenkinsLocationConfiguration>\n\t<adminAddress>${user.email}</adminAddress>\n\t<jenkinsUrl>${env.protocol}://${env.domain}/</jenkinsUrl>\n</jenkins.model.JenkinsLocationConfiguration>" > ~/.jenkins/jenkins.model.JenkinsLocationConfiguration.xml
-        wget ${baseUrl}/conf/plugins.txt -O plugins.txt
-        while read p; do names="${p%% *} $names"; done < plugins.txt
-        $cmd install-plugin $names
 
    setupMaster:
     - cmd[cp]: |-
-        pswd=$(cat ~/.jenkins/secrets/initialAdminPassword)
-        jar=${STACK_PATH}/webapps/ROOT/WEB-INF/jenkins-cli.jar
-        sed -i 's|>NEW<|>RUNNING<|g' ~/.jenkins/config.xml
-        sed -i 's/<numExecutors>[0-9]*<\/numExecutors>/<numExecutors>0<\/numExecutors>/g' ~/.jenkins/config.xml;
-        curl -o .jenkins/hudson.tasks.Maven.xml ${baseUrl}/conf/hudson.tasks.Maven.xml
-        sudo service tomcat restart
-        while [[ $(curl -s -w "%{http_code}" http://localhost:8080/ -o /dev/null) != "403" ]]; do echo "."; sleep 2; done
+        pswd=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
+        jar=/opt/jenkins/WEB-INF/jenkins-cli.jar
+        sudo service jenkins restart
+        while [[ $(curl -s -w "%{http_code}" http://localhost/ -o /dev/null) != "403" ]]; do echo "."; sleep 2; done
         echo -e "\n"|ssh-keygen -t rsa -N ""
         wget ${baseUrl}/conf/credentials.xml -O credentials.xml
         xmlstarlet ed --inplace -u "com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey/privateKeySource/privateKey" -v "$(cat .ssh/id_rsa)" credentials.xml 2>/dev/null;
@@ -126,7 +60,7 @@ actions:
    
    readPublicKeyFromMaster:
     api: env.file.Read
-    path: /opt/tomcat/temp/.ssh/id_rsa.pub
+    path: /home/jelastic/.ssh/id_rsa.pub
     nodeid: ${nodes.cp.master.id}
         
    initSlave:
@@ -141,8 +75,8 @@ actions:
     - cmd[${nodes.cp.master.id}]: |-
         ssh-keygen -R ${this.slaveNodeIp}
         echo ${this.slaveNodeIp} ${response.out} >> ~/.ssh/known_hosts
-        pswd=$(cat ~/.jenkins/secrets/initialAdminPassword)
-        jar=${STACK_PATH}/webapps/ROOT/WEB-INF/jenkins-cli.jar
+        pswd=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
+        jar=/opt/jenkins/WEB-INF/jenkins-cli.jar
         wget ${baseUrl}/conf/worker.xml -O worker.xml
         xmlstarlet ed --inplace -u "slave/name" -v "node${this.slaveNodeId}" worker.xml 2>/dev/null;
         xmlstarlet ed --inplace -u "slave/launcher/host" -v "${this.slaveNodeIp}" worker.xml 2>/dev/null;
@@ -152,6 +86,6 @@ actions:
    
    removeSlave:
     cmd[${nodes.cp.master.id}]: |-
-      pswd=$(cat ~/.jenkins/secrets/initialAdminPassword)
-      jar=${STACK_PATH}/webapps/ROOT/WEB-INF/jenkins-cli.jar
+      pswd=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
+      jar=/opt/jenkins/WEB-INF/jenkins-cli.jar
       java -jar $jar -s http://localhost -auth admin:$pswd delete-node node${this.slaveNodeId}
