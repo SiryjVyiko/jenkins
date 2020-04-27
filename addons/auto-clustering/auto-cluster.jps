@@ -35,8 +35,6 @@ onAfterClone:
     nodeGroup: cp
     settings:
       cloned: 'true'
-      user: ${settings.user}
-      password: ${settings.password}
 
 actions:
    cleanupNodes:
