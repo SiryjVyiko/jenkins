@@ -1,0 +1,32 @@
+{
+  "convertable" : false,
+  "jps"         : "https://raw.githubusercontent.com/SiryjVyiko/jenkins/master/addons/auto-clustering/auto-cluster.jps",  
+  "defaultState": true,
+  "compatibleAddons": ["jenkins-auto-cluster"],
+  "nodeGroupData": {
+    "skipNodeEmails": false,
+    "scalingMode": "STATEFUL",
+    "adminUrl": "",
+    "isResetServicePassword": true,
+    "isDeploySupport": false,
+    "validation": {
+      "maxCount": 1
+    }
+  },
+  "description" : "Autoscalable and clustered solution with pre-installed plugins to support building and deployment automation for organizing continuous integration (CI) and continuous delivery (CD) pipelines.",
+  "skipOnEnvInstall": true,
+  "extraNodes": {
+    "nodeGroup": "ctrl",
+    "nodeType": "${clusterNode.nodeType}",
+    "fixedCloudlets": "${clusterNode.fixedCloudlets}",
+    "flexibleCloudlets": "${clusterNode.flexibleCloudlets}",
+    "displayName": "Controller",
+    "count": 1,
+    "isClusterSupport": false,
+    "isDeploySupport": false,
+    "isClusterDependency": true,
+    "validation": {
+      "tag": "${clusterNode.tag}",
+      "maxCount": 1
+    }
+ }
