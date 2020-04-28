@@ -17,16 +17,12 @@
   "skipOnEnvInstall": true,
   "extraNodes": {
     "nodeGroup": "ctrl",
-    "nodeType": "${clusterNode.nodeType}",
-    "fixedCloudlets": "${clusterNode.fixedCloudlets}",
-    "flexibleCloudlets": "${clusterNode.flexibleCloudlets}",
-    "displayName": "Controller",
+    "nodeType": "javaengine",
+    "fixedCloudlets": 8,
+    "flexibleCloudlets": 16,
+    "displayName": "Workers",
     "count": 1,
     "isClusterSupport": false,
     "isDeploySupport": false,
-    "isClusterDependency": true,
-    "validation": {
-      "tag": "${clusterNode.tag}",
-      "maxCount": 1
-    }
+    "isClusterDependency": true
  }
