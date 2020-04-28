@@ -35,13 +35,11 @@ nodes:
     diskLimit: 100G
     startService: false
 
-skipNodeEmails: true
-
 onInstall:
   install:
     jps: ${baseUrl}/addons/auto-clustering/auto-cluster.jps?_r=${fn.random}
     settings:
       cloned: 'false'
-  cmd[cp]: wget ${baseUrl}/images/jenkins.svg -O ${WEBROOT}ROOT/images/jenkins.svg
+  cmd[cp]: wget ${baseUrl}/images/jenkins.svg -O /opt/jenkins/jenkins.svg
 
 success: /text/success.md
