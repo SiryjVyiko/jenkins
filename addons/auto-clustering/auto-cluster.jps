@@ -5,7 +5,7 @@ logo: /images/jenkins.png
 name: Jenkins DevOps Pack Cluster Logic
 
 onInstall:
-  - if (${settings.cloned:true}): cleanupNodes
+  - if (${settings.cloned:false}): cleanupNodes
   - else: setupCluster
   - readPublicKeyFromMaster
   - forEach(nodes.slaves):
