@@ -1,3 +1,3 @@
   **Admin UI**: [${env.url}](${env.url})  
   **User**: jenkins  
-  **Password**: See the node e-mail
+  **Password**: Password is sent in the Jenkins node e-mail
