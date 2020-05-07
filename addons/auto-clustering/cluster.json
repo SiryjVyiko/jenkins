@@ -26,6 +26,7 @@
     "count": "${settings.nodes:1}",
     "isClusterSupport": false,
     "isDeploySupport": false,
-    "isClusterDependency": true
+    "isClusterDependency": true,
+    "scalingMode": "STATELESS"
   }
 }
