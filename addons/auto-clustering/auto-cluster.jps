@@ -6,7 +6,7 @@ name: Jenkins DevOps Pack Cluster Logic
 
 onInstall:
   - if (${settings.cloned:false}): cleanupNodes
-  - else: setupCluster
+  - else: setupMaster
   - readPublicKeyFromMaster
   - forEach(nodes.slaves):
       initSlave:
