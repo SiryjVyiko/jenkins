@@ -17,11 +17,10 @@ globals:
   engine: openjdk11
 
 onBeforeInit: /scripts/quotascheck.js
-onBeforeInstall: /scripts/workerscheck.js
 
 nodes:
   - cloudlets: 16
-    nodeType: jenkins
+    nodeType: jenkins2
     engine: ${globals.engine} 
     displayName: Master 
 
@@ -40,6 +39,5 @@ onInstall:
     jps: ${baseUrl}/addons/auto-clustering/auto-cluster.jps?_r=${fn.random}
     settings:
       cloned: 'false'
-  cmd[cp]: wget ${baseUrl}/images/jenkins.svg -O /opt/jenkins/jenkins.svg
 
 success: /text/success.md
