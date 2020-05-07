@@ -22,7 +22,4 @@ nodes:
     engine: ${globals.engine} 
     displayName: Master
 
-onInstall:
-  setNodeCount [slaves]: ${settings.nodes}
-
 success: /text/success.md
