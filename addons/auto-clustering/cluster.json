@@ -10,7 +10,8 @@
     "scalingMode": "STATEFUL",
     "adminUrl": "",
     "isResetServicePassword": true,
-    "isDeploySupport": false
+    "isDeploySupport": false,
+    "fixedCloudlets": 2
   },
   "validation": {
     "maxCount": 1
