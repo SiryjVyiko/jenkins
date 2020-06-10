@@ -3,6 +3,7 @@ id: jenkins-auto-cluster
 baseUrl: https://raw.githubusercontent.com/SiryjVyiko/jenkins/master
 logo: /images/jenkins.png
 name: Jenkins DevOps Pack Cluster Logic
+targetNodes: none
 
 onInstall:
   - if (${settings.cloned:false}): cleanupNodes
