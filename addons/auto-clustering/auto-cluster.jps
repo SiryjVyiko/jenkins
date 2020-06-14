@@ -38,6 +38,7 @@ onAfterClone:
 actions:
    cleanupNodes:
     cmd[cp]: |-
+      xmlstarlet ed --inplace -u "jenkins.model.JenkinsLocationConfiguration/jenkinsUrl" -v "http://$(hostname)/" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 2>/dev/null;
       rm -rf /var/lib/jenkins/nodes/*;
       echo "" > /home/jelastic/.ssh/known_hosts;
       service jenkins restart;
