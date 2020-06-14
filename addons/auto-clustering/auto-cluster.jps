@@ -5,6 +5,9 @@ logo: /images/jenkins.png
 name: Jenkins DevOps Pack Cluster Logic
 targetNodes: none
 
+nodeGroupAlias:
+  ${settings.nodeGroup}: cp
+
 onInstall:
   - if (${settings.cloned:false}): cleanupNodes
   - else: setupMaster
@@ -29,11 +32,12 @@ onBeforeScaleIn[slaves]:
       slaveNodeId: ${@i.id}
 
 onAfterClone:
-  install:
-    jps: ${baseUrl}/addons/auto-clustering/auto-cluster.jps?_r=${fn.random}
+  - script: delete MANIFEST.id; return {result:0, jps:MANIFEST};
+  - install: ${response.jps}
     envName: ${event.response.env.envName}
     settings:
-      cloned: 'true'
+      nodeGroup: ${settings.nodeGroup} 
+      clone: true
 
 actions:
    cleanupNodes:
