@@ -58,6 +58,7 @@ actions:
         xmlstarlet ed --inplace -u "jenkins.model.JenkinsLocationConfiguration/adminAddress" -v "${user.email}" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 2>/dev/null;
         xmlstarlet ed --inplace -u "jenkins.model.JenkinsLocationConfiguration/jenkinsUrl" -v "http://$(hostname)/" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 2>/dev/null;
         rm -f credentials.xml
+        sudo service jenkins restart
    
    readPublicKeyFromMaster:
     api: env.file.Read
