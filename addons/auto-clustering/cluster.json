@@ -22,6 +22,7 @@
   "extraNodes": {
     "nodeGroup": "slaves",
     "nodeType": "javaengine",
+    "engine": "openjdk11",
     "fixedCloudlets": 8,
     "flexibleCloudlets": 16,
     "displayName": "Workers",
