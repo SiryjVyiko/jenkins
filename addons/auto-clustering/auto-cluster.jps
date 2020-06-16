@@ -32,7 +32,7 @@ onAfterScaleOut[slaves]:
 onBeforeScaleIn[slaves]:
   forEach(event.response.nodes):
     removeSlave:
-      slaveNodeId: ${@i.id}
+      slaveNodeIp: ${@i.intIP}
 
 onAfterClone:
   - script: delete MANIFEST.id; return {result:0, jps:MANIFEST};
@@ -111,4 +111,6 @@ actions:
     cmd[${nodes.cp.master.id}]: |-
       pswd=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
       jar=/opt/jenkins/WEB-INF/jenkins-cli.jar
-      java -jar $jar -s http://localhost -auth admin:$pswd delete-node node${this.slaveNodeId}
+      cd /var/lib/jenkins/nodes
+      slave_node_name=dirname $(grep -Rl '${this.slaveNodeIp}' *)
+      java -jar $jar -s http://localhost -auth admin:$pswd delete-node ${slave_node_name}
