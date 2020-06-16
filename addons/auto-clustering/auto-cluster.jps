@@ -38,6 +38,15 @@ onAfterClone:
     settings:
       nodeGroup: ${settings.nodeGroup} 
       clone: true
+      
+onAfterMigrate:
+  - cleanupNodes
+  - readPublicKeyFromMaster
+  - forEach(nodes.slaves):
+      initSlave:
+        publicKey: ${response.body}
+        slaveNodeId: ${@i.id}
+        slaveNodeIp: ${@i.intIP}
 
 actions:
    cleanupNodes:
