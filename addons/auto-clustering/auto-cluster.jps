@@ -10,8 +10,9 @@ nodeGroupAlias:
 
 onInstall:
   - if (${settings.cloned:false}): cleanupNodes
-  - else: setupMaster
-  - configureSlaves
+  - else: 
+      - setupMaster
+      - configureSlaves: ${nodes.slaves.join(id,)}
   - readPublicKeyFromMaster
   - forEach(nodes.slaves):
       initSlave:
@@ -20,6 +21,7 @@ onInstall:
         slaveNodeIp: ${@i.intIP}
           
 onAfterScaleOut[slaves]:
+  - configureSlaves: ${event.response.nodes.join(id,)}
   - readPublicKeyFromMaster
   - forEach(event.response.nodes):
       initSlave:
@@ -81,7 +83,7 @@ actions:
     nodeid: ${nodes.cp.master.id}
     
    configureSlaves:
-    - cmd[slaves]:
+    - cmd[${this}]:
         yum -y install gettext
         echo "/home/jelastic/.ssh/authorized_keys" >> /etc/jelastic/redeploy.conf
         echo "/etc/ssh/" >> /etc/jelastic/redeploy.conf
