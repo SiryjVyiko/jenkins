@@ -11,6 +11,7 @@ nodeGroupAlias:
 onInstall:
   - if (${settings.cloned:false}): cleanupNodes
   - else: setupMaster
+  - configureSlaveRedeploy
   - readPublicKeyFromMaster
   - forEach(nodes.slaves):
       initSlave:
@@ -93,10 +94,6 @@ actions:
     - cmd[${this.slaveNodeId}]: |-
         echo "${this.publicKey}" >> /home/jelastic/.ssh/authorized_keys;
         cat /etc/ssh/ssh_host_rsa_key.pub
-        echo "/home/jelastic/.ssh/authorized_keys" >> /etc/jelastic/redeploy.conf
-        echo "/etc/ssh/" >> /etc/jelastic/redeploy.conf
-        echo "/home/jelastic/remoting" >> /etc/jelastic/redeploy.conf
-        echo "/home/jelastic/remoting.jar" >> /etc/jelastic/redeploy.conf
     - cmd[${nodes.cp.master.id}]: |-
         ssh-keygen -R ${this.slaveNodeIp}
         echo ${this.slaveNodeIp} ${response.out} >> ~/.ssh/known_hosts
