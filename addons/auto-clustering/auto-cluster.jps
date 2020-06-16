@@ -112,6 +112,5 @@ actions:
       pswd=$(cat /var/lib/jenkins/secrets/initialAdminPassword)
       jar=/opt/jenkins/WEB-INF/jenkins-cli.jar
       cd /var/lib/jenkins/nodes
-      slave_node_name=dirname $(grep -Rl '${this.slaveNodeIp}' *)
+      slave_node_name=$(dirname $(grep -Rl '${this.slaveNodeIp}' *))
       java -jar $jar -s http://localhost -auth admin:$pswd delete-node ${slave_node_name}
-    user: root
