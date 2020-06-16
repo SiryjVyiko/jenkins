@@ -11,7 +11,7 @@ nodeGroupAlias:
 onInstall:
   - if (${settings.cloned:false}): cleanupNodes
   - else: setupMaster
-  - configureSlaveRedeploy
+  - configureSlaves
   - readPublicKeyFromMaster
   - forEach(nodes.slaves):
       initSlave:
@@ -80,17 +80,16 @@ actions:
     path: /home/jelastic/.ssh/id_rsa.pub
     nodeid: ${nodes.cp.master.id}
     
-   configureSlaveRedeploy:
+   configureSlaves:
     - cmd[slaves]:
+        yum -y install gettext
         echo "/home/jelastic/.ssh/authorized_keys" >> /etc/jelastic/redeploy.conf
         echo "/etc/ssh/" >> /etc/jelastic/redeploy.conf
         echo "/home/jelastic/remoting" >> /etc/jelastic/redeploy.conf
         echo "/home/jelastic/remoting.jar" >> /etc/jelastic/redeploy.conf
+      user: root
         
    initSlave:
-    - cmd[${this.slaveNodeId}]: |-
-        yum -y install gettext
-      user: root
     - cmd[${this.slaveNodeId}]: |-
         echo "${this.publicKey}" >> /home/jelastic/.ssh/authorized_keys;
         cat /etc/ssh/ssh_host_rsa_key.pub
