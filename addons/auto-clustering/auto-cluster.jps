@@ -79,6 +79,8 @@ actions:
         cat /etc/ssh/ssh_host_rsa_key.pub
         echo "/home/jelastic/.ssh/authorized_keys" >> /etc/jelastic/redeploy.conf
         echo "/etc/ssh/" >> /etc/jelastic/redeploy.conf
+        echo "/home/jelastic/remoting" >> /etc/jelastic/redeploy.conf
+        echo "/home/jelastic/remoting.jar" >> /etc/jelastic/redeploy.conf
     - cmd[${nodes.cp.master.id}]: |-
         ssh-keygen -R ${this.slaveNodeIp}
         echo ${this.slaveNodeIp} ${response.out} >> ~/.ssh/known_hosts
