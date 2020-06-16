@@ -78,6 +78,13 @@ actions:
     api: env.file.Read
     path: /home/jelastic/.ssh/id_rsa.pub
     nodeid: ${nodes.cp.master.id}
+    
+   configureSlaveRedeploy:
+    - cmd[slaves]:
+        echo "/home/jelastic/.ssh/authorized_keys" >> /etc/jelastic/redeploy.conf
+        echo "/etc/ssh/" >> /etc/jelastic/redeploy.conf
+        echo "/home/jelastic/remoting" >> /etc/jelastic/redeploy.conf
+        echo "/home/jelastic/remoting.jar" >> /etc/jelastic/redeploy.conf
         
    initSlave:
     - cmd[${this.slaveNodeId}]: |-
