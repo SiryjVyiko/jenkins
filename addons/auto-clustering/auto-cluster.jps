@@ -40,7 +40,7 @@ onAfterClone:
     envName: ${event.response.env.envName}
     settings:
       nodeGroup: ${settings.nodeGroup} 
-      clone: true
+      cloned: true
       
 onAfterMigrate:
   - cleanupNodes
