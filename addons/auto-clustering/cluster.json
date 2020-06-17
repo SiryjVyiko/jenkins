@@ -12,7 +12,8 @@
     "adminUrl": "",
     "isResetServicePassword": true,
     "isDeploySupport": false,
-    "fixedCloudlets": 2
+    "fixedCloudlets": 4,
+    "flexibleCloudlets": 16
   },
   "validation": {
     "maxCount": 1
