@@ -75,6 +75,10 @@ actions:
         xmlstarlet ed --inplace -u "jenkins.model.JenkinsLocationConfiguration/adminAddress" -v "${user.email}" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 2>/dev/null;
         xmlstarlet ed --inplace -u "jenkins.model.JenkinsLocationConfiguration/jenkinsUrl" -v "http://$(hostname)/" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 2>/dev/null;
         rm -f credentials.xml
+        wget ${baseUrl}/conf/user-creation.groovy
+        sed -i 's/EMAIL/${user.email}/' user-creation.groovy
+        cat user-creation.groovy | java -jar /opt/jenkins/WEB-INF/jenkins-cli.jar -auth admin:${pswd} -s http://localhost/ groovy =
+        rm -f user-creation.groovy
         sudo service jenkins restart
    
    readPublicKeyFromMaster:
