@@ -77,8 +77,7 @@ actions:
         rm -f credentials.xml
         wget ${baseUrl}/conf/user-creation.groovy
         sed -i 's/EMAIL/${user.email}/' user-creation.groovy
-        cat user-creation.groovy | java -jar /opt/jenkins/WEB-INF/jenkins-cli.jar -auth admin:${pswd} -s http://localhost/ groovy =
-        rm -f user-creation.groovy
+        cat user-creation.groovy | java -jar $jar -auth admin:$pswd -s http://localhost/ groovy =
         sudo service jenkins restart
    
    readPublicKeyFromMaster:
