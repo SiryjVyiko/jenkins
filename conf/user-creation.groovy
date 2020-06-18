@@ -16,4 +16,6 @@ if (existingUser == null) {
     strategy.add(Hudson.READ, userId)
     instance.setAuthorizationStrategy(strategy)
     instance.save()
+} else {
+    existingUser.addProperty(new Mailer.UserProperty(email));
 }
