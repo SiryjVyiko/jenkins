@@ -2,8 +2,8 @@ import hudson.model.*
 import hudson.security.*
 import hudson.tasks.Mailer
 
-def userId = "USERNAME"
-def password = "PASSWORD"
+def userId = "jelastic"
+def password = "password"
 def email = "EMAIL"
 def instance = jenkins.model.Jenkins.instance
 def existingUser = instance.securityRealm.allUsers.find {it.id == userId}
