@@ -88,7 +88,7 @@ actions:
     
    configureSlaves:
     - cmd[${this}]:
-        yum -y install gettext
+        yum -y install gettext;
         echo "/home/jelastic/.ssh/authorized_keys" >> /etc/jelastic/redeploy.conf
         echo "/etc/ssh/" >> /etc/jelastic/redeploy.conf
         echo "/home/jelastic/remoting" >> /etc/jelastic/redeploy.conf
