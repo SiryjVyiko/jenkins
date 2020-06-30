@@ -24,7 +24,14 @@ for (var i = 0, n = q.length; i < n; i++) {
   }
 
 }
-resp = {result: 0, settings: {fields: [{type: "spinner", name: "nodes", caption: "Workers", min: 0, max: max, "default": Math.min(min, max)}]}};
+var version = jelastic.system.service.GetVersion().version;
+
+if (version < "5.9.1") {
+    resp = {result: 0};
+} else {
+    resp = {result: 0, settings: {fields: [{type: "spinner", name: "nodes", caption: "Workers", min: 0, max: max, "default": Math.min(min, max)}]}};
+}
+
 resp.ssl = ssl;
 
 if (markup) {
