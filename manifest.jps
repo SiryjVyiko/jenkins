@@ -21,5 +21,7 @@ nodes:
     nodeType: jenkins2
     engine: ${globals.engine} 
     displayName: Master
+    cluster: 
+        nodes: ${settings.nodes:1}
 
 success: /text/success.md
