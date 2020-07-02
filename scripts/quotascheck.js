@@ -31,10 +31,10 @@ function compareVersions(a, b) {
     return 0;
 }
 
-if (compareVersions(platformVersion, '4.5.9') >= 0 || platformVersion.indexOf('trunk') != -1) {
-    resp = {result: 0};
-} else {
+if (compareVersions(platformVersion, '5.9') >= 0 || platformVersion.indexOf('trunk') != -1) {
     resp = {result: 0, settings: {fields: [{type: "spinner", name: "nodes", caption: "Workers", min: 0, max: max, "default": Math.min(min, max)}]}};
+} else {
+    resp = {result: 0};    
 }
 
 resp.ssl = ssl;
