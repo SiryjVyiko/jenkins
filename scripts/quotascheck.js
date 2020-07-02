@@ -42,7 +42,7 @@ function compareVersions(a, b) {
 
 var platformVersion = getPlatformVersion();
 
-if (compareVersions(platformVersion, '5.9') >= 0 || platformVersion.indexOf('trunk') != -1) {
+if (compareVersions(platformVersion, '5.9') >= 0) {
     resp = {result: 0, settings: {fields: [{type: "spinner", name: "nodes", caption: "Workers", min: 0, max: max, "default": Math.min(min, max)}]}};
 } else {
     resp = {result: 0};    
