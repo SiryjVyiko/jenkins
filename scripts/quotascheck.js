@@ -24,9 +24,14 @@ for (var i = 0, n = q.length; i < n; i++) {
   }
 
 }
-var version = jelastic.system.service.GetVersion().version;
 
-if (version < "5.9") {
+function compareVersions(a, b) {
+    a = a.split("."); b = b.split(".");
+    for (var i = 0, l = Math.max(a.length, b.length), x, y; i < l; i++) {x = parseInt(a[i], 10) || 0; y = parseInt(b[i], 10) || 0; if (x != y) return x > y ? 1 : -1 }
+    return 0;
+}
+
+if (compareVersions(platformVersion, '4.5.9') >= 0 || platformVersion.indexOf('trunk') != -1) {
     resp = {result: 0};
 } else {
     resp = {result: 0, settings: {fields: [{type: "spinner", name: "nodes", caption: "Workers", min: 0, max: max, "default": Math.min(min, max)}]}};
@@ -39,4 +44,5 @@ resp.settings.fields.push(
   {"type": "displayfield", "cls": "warning", "height": 30, "hideLabel": true, "markup": markup},
   {"type": "compositefield","height": 0,"hideLabel": true,"width": 0,"items": [{"height": 0,"type": "string","required": true}]});
 }
+
 return resp;
