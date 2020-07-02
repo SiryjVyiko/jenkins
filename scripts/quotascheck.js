@@ -25,11 +25,22 @@ for (var i = 0, n = q.length; i < n; i++) {
 
 }
 
+function getVersion() {
+    var version = jelastic.system.service.GetVersion();
+    return version;
+}
+
+function getPlatformVersion() {
+    return getVersion().version.split("-").shift();
+}
+
 function compareVersions(a, b) {
     a = a.split("."); b = b.split(".");
     for (var i = 0, l = Math.max(a.length, b.length), x, y; i < l; i++) {x = parseInt(a[i], 10) || 0; y = parseInt(b[i], 10) || 0; if (x != y) return x > y ? 1 : -1 }
     return 0;
 }
+
+var platformVersion = getPlatformVersion();
 
 if (compareVersions(platformVersion, '5.9') >= 0 || platformVersion.indexOf('trunk') != -1) {
     resp = {result: 0, settings: {fields: [{type: "spinner", name: "nodes", caption: "Workers", min: 0, max: max, "default": Math.min(min, max)}]}};
