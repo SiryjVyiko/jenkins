@@ -23,9 +23,9 @@ onInstall:
 onAfterScaleOut[slaves]:
   - configureSlaves: ${event.response.nodes.join(id,)}
   - readPublicKeyFromMaster
+  - set:
+      key: ${response.body}
   - forEach(event.response.nodes):
-      - set:
-          key: ${response.body}
       - initSlave:
           publicKey: ${this.key}
           slaveNodeId: ${@i.id}
