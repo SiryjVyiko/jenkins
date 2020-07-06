@@ -16,7 +16,7 @@ onInstall:
   - readPublicKeyFromMaster
   - set:
       key: ${response.body}
-  - forEach(event.response.nodes):
+  - forEach(nodes.slaves):
       - initSlave:
           publicKey: ${this.key}
           slaveNodeId: ${@i.id}
@@ -51,7 +51,7 @@ onAfterMigrate:
   - readPublicKeyFromMaster
   - set:
       key: ${response.body}
-  - forEach(event.response.nodes):
+  - forEach(nodes.slaves):
       - initSlave:
           publicKey: ${this.key}
           slaveNodeId: ${@i.id}
