@@ -13,21 +13,21 @@ onInstall:
   - else: 
       - setupMaster
       - configureSlaves: ${nodes.slaves.join(id,)}
-  - readPublicKeyFromMaster
   - forEach(nodes.slaves):
-      initSlave:
-        publicKey: ${response.body}
-        slaveNodeId: ${@i.id}
-        slaveNodeIp: ${@i.intIP}
+      - readPublicKeyFromMaster
+      - initSlave:
+          publicKey: ${response.body}
+          slaveNodeId: ${@i.id}
+          slaveNodeIp: ${@i.intIP}
           
 onAfterScaleOut[slaves]:
   - configureSlaves: ${event.response.nodes.join(id,)}
-  - readPublicKeyFromMaster
   - forEach(event.response.nodes):
-      initSlave:
-        publicKey: ${response.body}
-        slaveNodeId: ${@i.id}
-        slaveNodeIp: ${@i.intIP}
+      - readPublicKeyFromMaster
+      - initSlave:
+          publicKey: ${response.body}
+          slaveNodeId: ${@i.id}
+          slaveNodeIp: ${@i.intIP}
           
 onBeforeScaleIn[slaves]:
   forEach(event.response.nodes):
@@ -44,12 +44,12 @@ onAfterClone:
       
 onAfterMigrate:
   - cleanupNodes
-  - readPublicKeyFromMaster
   - forEach(nodes.slaves):
-      initSlave:
-        publicKey: ${response.body}
-        slaveNodeId: ${@i.id}
-        slaveNodeIp: ${@i.intIP}
+      - readPublicKeyFromMaster
+      - initSlave:
+          publicKey: ${response.body}
+          slaveNodeId: ${@i.id}
+          slaveNodeIp: ${@i.intIP}
 
 actions:
    cleanupNodes:
