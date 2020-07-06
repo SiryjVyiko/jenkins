@@ -13,10 +13,12 @@ onInstall:
   - else: 
       - setupMaster
       - configureSlaves: ${nodes.slaves.join(id,)}
-  - forEach(nodes.slaves):
-      - readPublicKeyFromMaster
+  - readPublicKeyFromMaster
+  - set:
+      key: ${response.body}
+  - forEach(event.response.nodes):
       - initSlave:
-          publicKey: ${response.body}
+          publicKey: ${this.key}
           slaveNodeId: ${@i.id}
           slaveNodeIp: ${@i.intIP}
           
@@ -46,10 +48,12 @@ onAfterClone:
       
 onAfterMigrate:
   - cleanupNodes
-  - forEach(nodes.slaves):
-      - readPublicKeyFromMaster
+  - readPublicKeyFromMaster
+  - set:
+      key: ${response.body}
+  - forEach(event.response.nodes):
       - initSlave:
-          publicKey: ${response.body}
+          publicKey: ${this.key}
           slaveNodeId: ${@i.id}
           slaveNodeIp: ${@i.intIP}
 
