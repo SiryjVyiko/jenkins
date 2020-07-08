@@ -16,8 +16,10 @@
     "flexibleCloudlets": 16
   },
   "validation": {
-    "maxCount": 1,
-    "recCloudlets": 16
+    "maxCount": 1
+  },
+  "recommended": {
+    "cloudlets": 16
   },
   "description": "Сlustered solution with pre-installed plugins to support building and deployment automation for organizing continuous integration (CI) and continuous delivery (CD) pipelines.",
   "skipOnEnvInstall": true,
