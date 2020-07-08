@@ -121,4 +121,4 @@ actions:
       cd /var/lib/jenkins/nodes
       slave_node_name=$(dirname $(grep -Rl '${this.slaveNodeIp}' *))
       java -jar $jar -s http://localhost -auth admin:$pswd delete-node ${slave_node_name}
-      sed -i "/^${this.slaveNodeIp}/d" /home/jelastic/.ssh/authorized_keys
+      sed -i "/^${this.slaveNodeIp}/d" /home/jelastic/.ssh/known_hosts
