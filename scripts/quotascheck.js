@@ -55,6 +55,11 @@ if (compareVersions(platformVersion, '5.9') >= 0) {
 
 resp.ssl = ssl;
 
+if (ssl_markup) {
+resp.settings.fields.push(
+  {"type": "displayfield", "cls": "warning", "height": 30, "hideLabel": true, "markup": ssl_markup}
+}
+
 if (markup) {
 resp.settings.fields.push(
   {"type": "displayfield", "cls": "warning", "height": 30, "hideLabel": true, "markup": markup},
