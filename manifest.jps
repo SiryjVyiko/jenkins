@@ -14,7 +14,6 @@ description: /text/description.md
 globals: 
   engine: openjdk11
 
-ssl: true
 onBeforeInit: /scripts/quotascheck.js
 
 nodes:
