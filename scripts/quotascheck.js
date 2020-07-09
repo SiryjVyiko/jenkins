@@ -57,8 +57,8 @@ resp.ssl = ssl;
 
 if (markup) {
 resp.settings.fields.push(
-  {"type": "displayfield", "cls": "warning", "height": 30, "hideLabel": true, "markup": markup},
-  {"type": "compositefield","height": 0,"hideLabel": true,"width": 0,"items": [{"height": 0,"type": "string","required": true}]});
+  {"type": "displayfield", "cls": "warning", "height": 30, "hideLabel": true, "markup": markup} //,
+//  {"type": "compositefield","height": 0,"hideLabel": true,"width": 0,"items": [{"height": 0,"type": "string","required": true}]});
 }
 
 return resp;
