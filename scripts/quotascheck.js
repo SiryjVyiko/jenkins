@@ -13,6 +13,9 @@ for (var i = 0, n = q.length; i < n; i++) {
 
   if (name == SSL) { 
     ssl = !!value;
+    if (ssl == false){
+      markup = "Environment will be created without Jelastic SSL due to the account limitations.";
+    }
     continue;
   }
   
@@ -47,7 +50,7 @@ var platformVersion = getPlatformVersion();
 if (compareVersions(platformVersion, '5.9') >= 0) {
     resp = {result: 0, settings: {fields: [{type: "spinner", name: "nodes", caption: "Workers", min: 1, max: max, "default": Math.min(min, max)}]}};
 } else {
-    resp = {result: 0};    
+    resp = {result: 0, settings: {}};    
 }
 
 resp.ssl = ssl;
