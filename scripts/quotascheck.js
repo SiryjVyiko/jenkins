@@ -3,7 +3,9 @@ var MAX_CLOUDLET = "environment.maxcloudletsperrec",
     MAX_NODES = "environment.maxnodescount",
     SSL = "environment.jelasticssl.enabled";
 
-var max = 10, cloudlets = '${jps.nodes[0].cloudlets}', min = 2, resp, name, value, ssl, markup = "", q = jelastic.billing.account.GetQuotas(MAX_NODES + ";" + SAME_NODES + ";" + MAX_CLOUDLET + ";" + SSL).array || [];
+var cloudlets = "${jps.nodes[0].cloudlets}"
+
+var max = 10, min = 2, resp, name, value, ssl, markup = "", q = jelastic.billing.account.GetQuotas(MAX_NODES + ";" + SAME_NODES + ";" + MAX_CLOUDLET + ";" + SSL).array || [];
 
 for (var i = 0, n = q.length; i < n; i++) {
   name = q[i].quota.name;
