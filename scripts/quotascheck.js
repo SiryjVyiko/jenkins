@@ -55,15 +55,15 @@ if (compareVersions(platformVersion, '5.9') >= 0) {
 
 resp.ssl = ssl;
 
-if (ssl_markup) {
-resp.settings.fields.push(
-  {"type": "displayfield", "cls": "warning", "height": 30, "hideLabel": true, "markup": ssl_markup}
-}
-
 if (markup) {
 resp.settings.fields.push(
   {"type": "displayfield", "cls": "warning", "height": 30, "hideLabel": true, "markup": markup},
   {"type": "compositefield","height": 0,"hideLabel": true,"width": 0,"items": [{"height": 0,"type": "string","required": true}]});
+}
+
+if (ssl_markup) {
+resp.settings.fields.push(
+  {"type": "displayfield", "cls": "warning", "height": 30, "hideLabel": true, "markup": ssl_markup}
 }
 
 return resp;
