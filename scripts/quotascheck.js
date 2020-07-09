@@ -20,7 +20,7 @@ for (var i = 0, n = q.length; i < n; i++) {
   }
   
   if (name == MAX_CLOUDLET && value < cloudlets) {
-    markup = markup + "\n" + "Quota limits: " + name + " = " + value + ".  Please upgrade your account.";
+    markup = "Quota limits: " + name + " = " + value + ".  Please upgrade your account.";
     continue;
   }
   if (max >= value) {
