@@ -5,7 +5,7 @@ var MAX_CLOUDLET = "environment.maxcloudletsperrec",
 
 var cloudlets = jps.nodes[0].cloudlets;
 
-var max = 10, min = 2, resp, name, value, ssl, markup = "", q = jelastic.billing.account.GetQuotas(MAX_NODES + ";" + SAME_NODES + ";" + MAX_CLOUDLET + ";" + SSL).array || [];
+var max = 10, min = 2, resp, name, value, ssl, markup = "", ssl_markup = "", q = jelastic.billing.account.GetQuotas(MAX_NODES + ";" + SAME_NODES + ";" + MAX_CLOUDLET + ";" + SSL).array || [];
 
 for (var i = 0, n = q.length; i < n; i++) {
   name = q[i].quota.name;
@@ -14,7 +14,7 @@ for (var i = 0, n = q.length; i < n; i++) {
   if (name == SSL) { 
     ssl = !!value;
     if (ssl == false){
-      markup = "Environment will be created without Jelastic SSL due to the account limitations.";
+      ssl_markup = "Environment will be created without Jelastic SSL due to the account limitations.";
     }
     continue;
   }
