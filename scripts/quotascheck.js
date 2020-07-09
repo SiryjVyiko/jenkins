@@ -50,7 +50,7 @@ var platformVersion = getPlatformVersion();
 if (compareVersions(platformVersion, '5.9') >= 0) {
     resp = {result: 0, settings: {fields: [{type: "spinner", name: "nodes", caption: "Workers", min: 1, max: max, "default": Math.min(min, max)}]}};
 } else {
-    resp = {"result":0,"settings":{}};    
+    resp = {result: 0, settings: null};    
 }
 
 resp.ssl = ssl;
