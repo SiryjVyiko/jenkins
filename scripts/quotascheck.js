@@ -59,7 +59,8 @@ markup = markup + '\n' + ssl_markup;
 
 if (markup) {
 resp.settings.fields.push(
-  {"type": "displayfield", "cls": "warning", "height": 30, "hideLabel": true, "markup": markup}
+    {"type": "displayfield", "cls": "warning", "height": 30, "hideLabel": true, "markup": markup}
+  )
 }
 
 return resp;
