@@ -2,6 +2,7 @@
   "convertable": false,
   "jps": "https://raw.githubusercontent.com/SiryjVyiko/jenkins/master/addons/auto-clustering/auto-cluster.jps",
   "defaultState": true,
+  "required": true,
   "compatibleAddons": [
     "jenkins-auto-cluster"
   ],
