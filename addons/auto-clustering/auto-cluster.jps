@@ -37,6 +37,13 @@ onBeforeScaleIn[slaves]:
   forEach(event.response.nodes):
     removeSlave:
       slaveNodeIp: ${@i.intIP}
+      
+onBeforeRemoveNode [cp]:
+  if (nodes.cp.length == 1):
+    install:
+      type: update
+      name: Jenkins DevOps Pack Cluster Logic
+      id: jenkins-auto-cluster
 
 onAfterClone:
   - script: delete MANIFEST.id; return {result:0, jps:MANIFEST};
