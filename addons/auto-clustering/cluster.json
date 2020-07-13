@@ -29,6 +29,7 @@
     "engine": "openjdk11",
     "fixedCloudlets": 8,
     "flexibleCloudlets": 16,
+    "diskLimit": "100G",
     "displayName": "Workers",
     "count": "${settings.nodes:1}",
     "isClusterSupport": false,
