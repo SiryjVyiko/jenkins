@@ -12,7 +12,7 @@
     "adminUrl": "",
     "isResetServicePassword": true,
     "isDeploySupport": false,
-    "fixedCloudlets": 12,
+    "fixedCloudlets": 4,
     "flexibleCloudlets": 16
   },
   "validation": {
