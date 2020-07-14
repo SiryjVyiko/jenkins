@@ -1,6 +1,6 @@
 var resp = {
-  result: 0,
-  nodes: [
+  "result": 0,
+  "nodes": [
     {
       "cloudlets": 12,
       "nodeType": "jenkins2",
