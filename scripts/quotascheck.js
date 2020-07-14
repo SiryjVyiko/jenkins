@@ -3,7 +3,7 @@ var MAX_CLOUDLET = "environment.maxcloudletsperrec",
     MAX_NODES = "environment.maxnodescount",
     SSL = "environment.jelasticssl.enabled";
 
-var cloudlets = 12;
+var cloudlets = 16;
 
 var max = 10, min = 2, resp, name, value, ssl, markup = "", ssl_markup = "", q = jelastic.billing.account.GetQuotas(MAX_NODES + ";" + SAME_NODES + ";" + MAX_CLOUDLET + ";" + SSL).array || [];
 
