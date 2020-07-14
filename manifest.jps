@@ -17,7 +17,7 @@ globals:
 onBeforeInit: /scripts/quotascheck.js
 
 nodes:
-  - cloudlets: 16
+  - cloudlets: 12
     nodeType: jenkins2
     engine: ${globals.engine} 
     displayName: Master
