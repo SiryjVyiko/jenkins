@@ -16,12 +16,9 @@ globals:
 
 onBeforeInit: /scripts/quotascheck.js
 
-nodes:
-  - cloudlets: 12
-    nodeType: jenkins2
-    engine: ${globals.engine} 
-    displayName: Master
-    cluster: 
-        nodes: ${settings.nodes:1}
+onBeforeInstall: |
+  return {result:0, nodes:[{ cloudlets:12, nodeType:"jenkins2", engine:"${globals.engine}", displayName:"Master", cluster:{ nodes:"${settings.nodes:1}"}}]}
+
+nodes: definedInOnBeforeInstall
 
 success: /text/success.md
